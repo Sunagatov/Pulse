@@ -1,27 +1,39 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.5'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    // Используем версии, определённые в gradle.properties
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'java'
 }
 
 group = 'com.zufar'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'  // Обновлено до Java 17, обязательная версия для Spring Boot 3
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // Spring Boot starter для базового функционала приложения
-    implementation 'org.springframework.boot:spring-boot-starter'
-    // Starter для Apache Kafka
-    implementation 'org.springframework.kafka:spring-kafka'
-    // Lombok для автоматического внедрения зависимостей
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    // Тестовые зависимости
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // ---------------------------
+    // Spring Boot Starters
+    // ---------------------------
+    implementation "org.springframework.boot:spring-boot-starter"
+
+    // ---------------------------
+    // Kafka Dependencies
+    // ---------------------------
+    implementation "org.springframework.kafka:spring-kafka:${springKafkaVersion}"
+
+    // ---------------------------
+    // Lombok Dependencies
+    // ---------------------------
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // ---------------------------
+    // Testing Dependencies
+    // ---------------------------
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 tasks.named('test') {

@@ -1,12 +1,18 @@
+port: ${APP_PORT}
+
 spring:
   kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     consumer:
-      bootstrap-servers: localhost:9092
-      group-id: telegram-bot-group
+      group-id: ${KAFKA_CONSUMER_GROUP}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: earliest
+      properties:
+        security.protocol: SASL_SSL
+        sasl.jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule required username='${KAFKA_API_KEY}' password='${KAFKA_API_SECRET}';"
+        sasl.mechanism: PLAIN
+        client.dns.lookup: use_all_dns_ips
 
-app:
-  kafka:
-    topic: telegrambot_metrics
+kafka:
+  topic: ${KAFKA_TOPIC}

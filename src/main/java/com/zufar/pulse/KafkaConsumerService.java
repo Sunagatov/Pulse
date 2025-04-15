@@ -1,11 +1,11 @@
 package com.zufar.pulse;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
-@RequiredArgsConstructor
 public class KafkaConsumerService {
 
     /**
@@ -14,10 +14,13 @@ public class KafkaConsumerService {
      *
      * @param message полученное сообщение
      */
-    @KafkaListener(topics = "${app.kafka.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "${kafka.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void consumeMessage(String message) {
-        // Здесь можно добавить логику обработки полученного сообщения.
-        System.out.println("Получено сообщение: " + message);
+        try {
+            log.info("Получено сообщение: {}", message);
+            // Здесь можно добавить дополнительную логику обработки, например, парсинг JSON и сохранение метрик
+        } catch (Exception e) {
+            log.error("Ошибка при обработке сообщения: {}", message, e);
+        }
     }
 }
-
